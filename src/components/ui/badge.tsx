@@ -12,6 +12,22 @@ const badgeVariants = cva(
         secondary: "border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80",
         destructive: "border-transparent bg-destructive text-destructive-foreground hover:bg-destructive/80",
         outline: "text-foreground",
+        // Custom variants for Benefits GPS
+        success: "border-transparent bg-success/15 text-success",
+        warning: "border-transparent bg-warning/15 text-warning",
+        info: "border-transparent bg-info/15 text-info",
+        pending: "border-transparent bg-warning/15 text-warning",
+        approved: "border-transparent bg-success/15 text-success",
+        rejected: "border-transparent bg-destructive/15 text-destructive",
+        review: "border-transparent bg-info/15 text-info",
+        // Score badges
+        "score-high": "border-transparent bg-success/15 text-success font-bold",
+        "score-medium": "border-transparent bg-warning/15 text-warning font-bold",
+        "score-low": "border-transparent bg-destructive/15 text-destructive font-bold",
+        // Category badges
+        category: "border-accent/30 bg-accent/10 text-accent",
+        central: "border-transparent bg-primary/15 text-primary",
+        state: "border-transparent bg-info/15 text-info",
       },
     },
     defaultVariants: {

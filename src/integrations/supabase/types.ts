@@ -14,16 +14,200 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      applications: {
+        Row: {
+          bank_account: string | null
+          beneficiary_type: string | null
+          created_at: string | null
+          id: string
+          notes: string | null
+          scheme_id: string
+          status: string | null
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          bank_account?: string | null
+          beneficiary_type?: string | null
+          created_at?: string | null
+          id?: string
+          notes?: string | null
+          scheme_id: string
+          status?: string | null
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          bank_account?: string | null
+          beneficiary_type?: string | null
+          created_at?: string | null
+          id?: string
+          notes?: string | null
+          scheme_id?: string
+          status?: string | null
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "applications_scheme_id_fkey"
+            columns: ["scheme_id"]
+            isOneToOne: false
+            referencedRelation: "schemes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          aadhaar_verified: boolean | null
+          age: number | null
+          annual_income: number | null
+          caste_category: string | null
+          created_at: string | null
+          disability_status: string | null
+          district: string | null
+          full_name: string | null
+          gender: string | null
+          household_members: number | null
+          id: string
+          occupation: string | null
+          phone: string | null
+          state: string | null
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          aadhaar_verified?: boolean | null
+          age?: number | null
+          annual_income?: number | null
+          caste_category?: string | null
+          created_at?: string | null
+          disability_status?: string | null
+          district?: string | null
+          full_name?: string | null
+          gender?: string | null
+          household_members?: number | null
+          id?: string
+          occupation?: string | null
+          phone?: string | null
+          state?: string | null
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          aadhaar_verified?: boolean | null
+          age?: number | null
+          annual_income?: number | null
+          caste_category?: string | null
+          created_at?: string | null
+          disability_status?: string | null
+          district?: string | null
+          full_name?: string | null
+          gender?: string | null
+          household_members?: number | null
+          id?: string
+          occupation?: string | null
+          phone?: string | null
+          state?: string | null
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      schemes: {
+        Row: {
+          apply_link: string | null
+          benefits: string | null
+          category: string | null
+          created_at: string | null
+          description: string | null
+          disability_eligible: boolean | null
+          documents_required: string[] | null
+          eligible_castes: string[] | null
+          eligible_genders: string[] | null
+          id: string
+          income_limit: number | null
+          max_age: number | null
+          min_age: number | null
+          ministry: string | null
+          state: string | null
+          title: string
+          type: string | null
+        }
+        Insert: {
+          apply_link?: string | null
+          benefits?: string | null
+          category?: string | null
+          created_at?: string | null
+          description?: string | null
+          disability_eligible?: boolean | null
+          documents_required?: string[] | null
+          eligible_castes?: string[] | null
+          eligible_genders?: string[] | null
+          id?: string
+          income_limit?: number | null
+          max_age?: number | null
+          min_age?: number | null
+          ministry?: string | null
+          state?: string | null
+          title: string
+          type?: string | null
+        }
+        Update: {
+          apply_link?: string | null
+          benefits?: string | null
+          category?: string | null
+          created_at?: string | null
+          description?: string | null
+          disability_eligible?: boolean | null
+          documents_required?: string[] | null
+          eligible_castes?: string[] | null
+          eligible_genders?: string[] | null
+          id?: string
+          income_limit?: number | null
+          max_age?: number | null
+          min_age?: number | null
+          ministry?: string | null
+          state?: string | null
+          title?: string
+          type?: string | null
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "citizen" | "ngo" | "admin" | "officer"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +334,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["citizen", "ngo", "admin", "officer"],
+    },
   },
 } as const

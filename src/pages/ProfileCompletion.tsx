@@ -5,6 +5,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
+import { supabase } from "@/lib/supabase";
+
 import {
   Select,
   SelectContent,
@@ -63,14 +65,65 @@ const ProfileCompletion = () => {
     hasDisabilityCert: false,
   });
 
-  const handleNext = () => {
-    if (currentStep < steps.length - 1) {
-      setCurrentStep(currentStep + 1);
-    } else {
-      // Submit and navigate
+  const handleNext = async () => {
+  if (currentStep < steps.length - 1) {
+    setCurrentStep(currentStep + 1);
+  } else {
+    try {
+      // Calculate Age
+      const age =
+        new Date().getFullYear() -
+        new Date(formData.dateOfBirth).getFullYear();
+
+      // Convert income range string to number
+      let incomeValue = 0;
+
+      switch (formData.annualIncome) {
+        case "0-100000":
+          incomeValue = 100000;
+          break;
+        case "100000-250000":
+          incomeValue = 250000;
+          break;
+        case "250000-500000":
+          incomeValue = 500000;
+          break;
+        case "500000-1000000":
+          incomeValue = 1000000;
+          break;
+        case "1000000+":
+          incomeValue = 1500000;
+          break;
+        default:
+          incomeValue = 0;
+      }
+
+      // Insert into Supabase
+      const { error } = await supabase.from("profiles").insert([
+        {
+          name: formData.fullName,
+          age: age,
+          gender: formData.gender,
+          income: incomeValue,
+          state: formData.state,
+          caste: formData.casteCategory,
+        },
+      ]);
+
+      if (error) {
+        alert("Error saving profile: " + error.message);
+        return;
+      }
+
+      alert("Profile saved successfully!");
       navigate("/eligibility-check");
+    } catch (err) {
+      console.error(err);
+      alert("Something went wrong");
     }
-  };
+  }
+};
+
 
   const handlePrev = () => {
     if (currentStep > 0) {

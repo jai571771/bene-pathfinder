@@ -5,9 +5,18 @@ import "./index.css";
 createRoot(document.getElementById("root")!).render(<App />);
 
 import { getEligibleSchemes } from "./schemes";
+import { supabase } from "./supabase.ts";
 
 async function showSchemes() {
-  const userId = "USER_ID_HERE";
+  const {
+  data: { user },
+} = await supabase.auth.getUser();
+
+if (!user) return;
+
+const userId = user.id;
+
+
 
   const schemes = await getEligibleSchemes(userId);
 

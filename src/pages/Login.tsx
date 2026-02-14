@@ -38,7 +38,25 @@ const Login = () => {
       return;
     }
 
-    navigate("/dashboard");
+    const {
+  data: { user },
+} = await supabase.auth.getUser();
+
+if (!user) return;
+
+// Check if profile already exists
+const { data: profile } = await supabase
+  .from("profiles")
+  .select("*")
+  .eq("name", user.email) // ⚠️ Change if needed
+  .single();
+
+if (profile) {
+  navigate("/dashboard");
+} else {
+  navigate("/profile-completion");
+}
+
   };
 
   // Google login
@@ -46,7 +64,7 @@ const Login = () => {
     await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
-        redirectTo: window.location.origin + "/dashboard",
+        redirectTo: window.location.origin + "/eligibility-start",
       },
     });
   };
